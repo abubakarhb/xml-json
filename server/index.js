@@ -1,9 +1,12 @@
-const express = require("express");
-const PORT = process.env.PORT || 3001;
+import express from "express";
+const PORT = process.env.PORT || 3002;
 const app = express();
-const cors = require("cors");
-const xml2js = require("xml2js");
-const bodyParser = require("body-parser");
+import cors from "cors";
+// import xml2js from "xml2js"
+import bodyParser from "body-parser"
+import json2csv from 'json2csv';
+
+// import { Parser, Validator, ResultType } from 'ts-edifact';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -12,25 +15,68 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // POST route to convert JSON to XML
-app.post("/convert-to-xml", (req, res) => {
-  // Convert JSON to XML
-  const builder = new xml2js.Builder();
-  const xml = builder.buildObject(req.body);
+// app.post("/convert-to-xml", (req, res) => {
+//   // Convert JSON to XML
+//   const builder = new xml2js.Builder();
+//   const xml = builder.buildObject(req.body);
 
-  res.send(xml);
-});
+//   res.send(xml);
+// });
 
 // POST route to convert XML to JSON
-app.post("/convert-to-json", (req, res) => {
-  // Convert XML to JSON
-  const parser = new xml2js.Parser();
-  parser.parseString(req.body, (err, result) => {
-    if (err) {
-      res.status(400).send(err);
-    } else {
-      res.send(result);
-    }
-  });
+// app.post("/convert-to-json", (req, res) => {
+//   // Convert XML to JSON
+//   const parser = new xml2js.Parser();
+//   parser.parseString(req.body, (err, result) => {
+//     if (err) {
+//       res.status(400).send(err);
+//     } else {
+//       res.send(result);
+//     }
+//   });
+// });
+
+// app.post('/convert-to-edifact', (req, res) => {
+//   // Read the JSON data from the request body
+//   const jsonData = req.body
+
+//   // Create an EdifactInterchange object
+//   const interchange = new edifactLib.EdifactInterchange({
+//     sender: jsonData.header.sender,
+//     recipient: jsonData.header.recipient,
+//   });
+
+//   // Create an EdifactMessage object
+//   const message = new edifactLib.EdifactMessage({
+//     name: jsonData.name,
+//   });
+
+//   // Add segments to the message
+//   for (const segment of jsonData.segments) {
+//     message.addSegment({
+//       name: segment.name,
+//       elements: segment.elements,
+//     });
+//   }
+
+//   // Add the message to the interchange
+//   interchange.addMessage(message);
+//   // Convert the interchange to an EDIFACT message
+//   const edifactMessage = interchange.toString();
+
+//   res(edifactMessage)
+
+// });
+
+app.post('/convert-to-csv', (req, res) => {
+  // Read the JSON data from the request body
+  const jsonData = req.body;
+
+  // Convert the JSON data to CSV format
+  const csvData = json2csv.parse(jsonData);
+
+  // Send the CSV data as the response
+  res.send(csvData);
 });
 
 app.listen(PORT, () => {
