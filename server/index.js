@@ -15,15 +15,15 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // POST route to convert JSON to XML
-// app.post("/convert-to-xml", (req, res) => {
-//   // Convert JSON to XML
-//   const builder = new xml2js.Builder();
-//   const xml = builder.buildObject(req.body);
+app.post("/convert-to-xml", (req, res) => {
+  // Convert JSON to XML
+  const builder = new xml2js.Builder();
+  const xml = builder.buildObject(req.body);
 
-//   res.send(xml);
-// });
+  res.send(xml);
+});
 
-POST route to convert XML to JSON
+// POST route to convert XML to JSON
 app.post("/convert-to-json", (req, res) => {
   // Convert XML to JSON
   const parser = new xml2js.Parser();
