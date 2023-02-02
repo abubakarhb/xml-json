@@ -2,7 +2,7 @@ import express from "express";
 const PORT = process.env.PORT || 3002;
 const app = express();
 import cors from "cors";
-// import xml2js from "xml2js"
+import xml2js from "xml2js"
 import bodyParser from "body-parser"
 import json2csv from 'json2csv';
 
@@ -23,18 +23,18 @@ app.use(cors());
 //   res.send(xml);
 // });
 
-// POST route to convert XML to JSON
-// app.post("/convert-to-json", (req, res) => {
-//   // Convert XML to JSON
-//   const parser = new xml2js.Parser();
-//   parser.parseString(req.body, (err, result) => {
-//     if (err) {
-//       res.status(400).send(err);
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });
+POST route to convert XML to JSON
+app.post("/convert-to-json", (req, res) => {
+  // Convert XML to JSON
+  const parser = new xml2js.Parser();
+  parser.parseString(req.body, (err, result) => {
+    if (err) {
+      res.status(400).send(err);
+    } else {
+      res.send(result);
+    }
+  });
+});
 
 // app.post('/convert-to-edifact', (req, res) => {
 //   // Read the JSON data from the request body
